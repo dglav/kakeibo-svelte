@@ -10,12 +10,23 @@
 			});
 		}
 	});
+
+	export let extended: boolean = false;
+	export let href: string = '';
 </script>
 
-<button class="mdc-fab" aria-label="Add">
+<a
+	{href}
+	class={`mdc-fab ${extended ? 'mdc-fab--extended' : ''}`}
+	aria-label="Add"
+	data-sveltekit-prefetch
+>
 	<div class="mdc-fab__ripple" />
 	<span class="material-icons mdc-fab__icon">add</span>
-</button>
+	{#if extended}
+		<span class="mdc-fab__label">Add</span>
+	{/if}
+</a>
 
 <!-- Todo: Figure out why global needs to be set here for the ripple effect to work -->
 <style global lang="scss">
@@ -28,18 +39,11 @@
 		@include fab.container-color(var(--md-sys-color-primary-container));
 		@include fab.ink-color(var(--md-sys-color-on-primary-container));
 		@include fab.shape-radius(25%);
-
-		@include ripple.states-base-color(var(--md-sys-color-primary-container));
-		@include ripple.states-opacities(
-			(
-				hover: 0.3,
-				focus: 0.5,
-				press: 0.8
-			)
-		);
+		@include fab.extended-shape-radius(25%);
 
 		position: fixed;
 		bottom: 32px;
 		right: 32px;
+		height: 56px;
 	}
 </style>

@@ -3,6 +3,12 @@
 	import PurchaseTable from '../lib/components/PurchaseTable.svelte';
 	import FloatingActionButton from '../lib/components/FloatingActionButton.svelte';
 	import { theme } from '$lib/stores';
+	import { prefetchRoutes } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		prefetchRoutes();
+	});
 </script>
 
 <svelte:head>
@@ -12,11 +18,11 @@
 	<link rel="stylesheet" href={`/theme/theme.${$theme}.css`} />
 </svelte:head>
 
-<TopAppBar>
+<TopAppBar title="Account Book">
 	<PurchaseTable />
 </TopAppBar>
 
-<FloatingActionButton />
+<FloatingActionButton href="/add" />
 
 <style global>
 	body {

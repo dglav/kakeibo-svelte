@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { onMount } from 'svelte';
 	import { MDCTopAppBar } from '@material/top-app-bar';
 	import { MDCRipple } from '@material/ripple';
@@ -10,19 +10,32 @@
 		}
 
 		const iconElements = document.querySelectorAll('.mdc-icon-button');
-		if (iconElements.length) {
-			iconElements.forEach((iconElement) => {
-				const iconButtonRipple = new MDCRipple(iconElement);
-				iconButtonRipple.unbounded = true;
-			});
-		}
+		iconElements.forEach((iconElement) => {
+			const iconButtonRipple = new MDCRipple(iconElement);
+			iconButtonRipple.unbounded = true;
+		});
 	});
+
+	export let title: string;
+	export let withBackButton: boolean = false;
+	export let justifyStart: boolean = false;
 </script>
 
 <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
 	<div class="mdc-top-app-bar__row">
-		<section class="mdc-top-app-bar__section">
-			<span class="mdc-top-app-bar__title">Account Book</span>
+		<section class={`mdc-top-app-bar__section ${justifyStart ? 'align-start' : 'align-center'}`}>
+			{#if withBackButton}
+				<button
+					class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button"
+					aria-label="Go back"
+					on:click={() => {
+						window.history.back();
+					}}
+					><div class="mdc-icon-button__ripple" />
+					arrow_back</button
+				>
+			{/if}
+			<span class="mdc-top-app-bar__title">{title}</span>
 		</section>
 	</div>
 </header>
@@ -44,11 +57,14 @@
 		color: var(--md-sys-color-on-primary);
 	}
 
-	.mdc-top-app-bar__section {
+	.align-center {
 		justify-content: center;
+		.mdc-top-app-bar__title {
+			padding: 0;
+		}
 	}
 
-	.mdc-top-app-bar__title {
-		padding: 0;
+	.align-start {
+		justify-content: start;
 	}
 </style>
